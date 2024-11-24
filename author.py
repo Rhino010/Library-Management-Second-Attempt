@@ -1,20 +1,20 @@
 # Creating a class named authors to hold author names and short bios about them
 class Author:
     def __init__(self, name, bio):
-        self.name = name
-        self.bio = bio
+        self.__name = name
+        self.__bio = bio
 # Method to set the author's name
     def set_name(self, new_name):
-        self.name = new_name
+        self.__name = new_name
 # Method to retrieve the authors name from an instance
     def get_name(self):
-        return self.name
+        return self.__name
 # Method to set the author's bio
     def set_bio(self, new_bio):
-        self.bio = new_bio
+        self.__bio = new_bio
 # Method to retrieve the author's bio from the authors dictionary
     def get_bio(self):
-        return self.bio
+        return self.__bio
 # Created an authors dictionary
 authors = {}
 # Function to add an author to the dictionary

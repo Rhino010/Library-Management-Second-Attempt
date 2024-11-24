@@ -2,23 +2,23 @@
 # availability to True under the assumption that a book will not be entered into the program until they have it.
 class Book:
     def __init__(self, title, author, genre, publication_year):
-        self.title = title
-        self.author = author
-        self.genre = genre
-        self.publication_year = publication_year
+        self.__title = title
+        self.__author = author
+        self.__genre = genre
+        self.__publication_year = publication_year
         self.availability = True
 # Retrieves the title from an instance of the Book class
     def get_title(self):
-        return self.title
+        return self.__title
 # Retrieves an author from a Book class instance
     def get_author(self):
-        return self.author
+        return self.__author
 # Retrieves the genre from a Book Class instance
     def get_genre(self):
-        return self.genre
+        return self.__genre
 # Retrieves the publication year from a Book class instance
     def get_publication_year(self):
-        return self.publication_year
+        return self.__publication_year
 # Method to toggle the availability of a book when called without needing explicit True or False inputs from user
     def set_availability(self):
         if not self.availability:
@@ -30,7 +30,10 @@ class Book:
         return self.availability
 # Method to display all books from a given instance.
     def show_all_books(self):
-        print(f"Title: {self.title}, Author: {self.author}, Genre: {self.genre}, Publish Year: {self.publication_year}, Availability: {self.availability}")
+        if self.availability == True:
+            print(f"Title: {self.__title}, Author: {self.__author}, Genre: {self.__genre}, Publish Year: {self.__publication_year}, Available: 'YES'")
+        else:
+            print(f"Title: {self.__title}, Author: {self.__author}, Genre: {self.__genre}, Publish Year: {self.__publication_year}, Available: 'NO'")
     
 # Declaration of a library books dictionary to hold all books and information from a given instance of the Book class
 library_books = {}
@@ -54,12 +57,11 @@ def borrow_book(book_to_borrow):
     else:
         print("We do not currently carry that title.")
 # Function to set the availability to True for a book after function is called
-def return_book():
+def return_book(book):
     try:
-        returned_book = input("Which book would you like to return?\n")
-        if returned_book in library_books and library_books[returned_book].get_availability() == False:
-            library_books[returned_book].set_availability()
-        elif returned_book not in library_books:
+        if book in library_books and library_books[book].get_availability() == False:
+            library_books[book].set_availability()
+        elif book not in library_books:
             print("Sorry that book does not belong to this library.")
     except Exception as e:
         print(f"Error occurred: {e}")
@@ -67,8 +69,10 @@ def return_book():
 def find_book():
     try:
         book = input("What is the book title?\n")
-        if book in library_books:
-            print(f"Book: {book} is currently {library_books[book].get_availability()}")
+        if book in library_books and library_books[book].get_availability() == True:
+            print(f"Book: {book}, Available to check out: 'YES' ")
+        elif book in library_books and library_books[book].get_availability() == False:
+            print(f"Book: {book}, Available to check out: 'NO' ")
         else:
             print("This library does not carry that title.")
     except Exception as e:

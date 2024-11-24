@@ -22,6 +22,9 @@ class User:
 # Method to add to the list of borrowed books
     def add_to_borrowed(self, book):
         self.borrowed_books.append(book)
+
+    def remove_borrowed_book(self, book):
+        self.borrowed_books.remove(book)
     
 
     
@@ -30,20 +33,23 @@ users = {}
 
 # Function to prompt the user for a user's information
 def add_user():
-    user_id = input("Please give the user's ID number:\n")
-    user_name = input("Please enter the user's name:\n")
-    new_user = User(user_id, user_name)
-    users[user_id] = new_user
-    print(f"User with ID: {user_id} and Name: {user_name} has been added.")
+    try:
+        user_id = int(input("Please give the user's ID number:\n"))
+        user_name = input("Please enter the user's name:\n")
+        new_user = User(user_id, user_name)
+        users[user_id] = new_user
+        print(f"User with ID: {user_id} and Name: {user_name} has been added.")
+    except ValueError:
+        print("User ID must be a number.")
 # Function to print out all of a selected user's information
 def view_user_details():
     try:
-        user_id = input("What is the users ID number?\n")
+        user_id = int(input("What is the users ID number?\n"))
         if user_id in users:
             user_obj = users[user_id]
             print(f"User found, ID: {user_obj.get_id()}, Name: {user_obj.get_name()}, Checked out books: {user_obj.get_users_books()}")
-    except Exception as e:
-        print(f"Unexpected error: {e}")
+    except ValueError:
+        print("User ID must be a number.")
 # Function to print out all users currently held in the user dictionary
 def show_all_users():
     if not users:
@@ -54,12 +60,28 @@ def show_all_users():
 
 # Function to add a book to each instance of a user when checking out a book with the given user's id number
 def user_borrowed_books(book):
-    user_id = input("Please give the user's ID number:\n")
-    if user_id not in users:
-        print("That user does not exist.")
-    else:
-        user_obj = users[user_id]
-        user_obj.add_to_borrowed(book)
+    try:
+        user_id = int(input("Please give the user's ID number:\n"))
+        if user_id not in users:
+            print("That user does not exist.")
+        else:
+            user_obj = users[user_id]
+            user_obj.add_to_borrowed(book)
+            print(f"{book} has been successfully checked out. Enjoy!")
+    except ValueError:
+        print("User ID must be a number.")
+
+def user_book_return(book):
+    try:
+        user_id = int(input("Pleae give the user's ID number:\n"))
+        if user_id not in users:
+            print("That user does not exist.")
+        else:
+            user_obj = users[user_id]
+            user_obj.remove_borrowed_book(book)
+            print(f"{book} has been successfully returned. Thank you!")
+    except ValueError:
+        print("User ID must be a number.")
 
 
 
